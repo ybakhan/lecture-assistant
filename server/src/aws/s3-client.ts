@@ -1,7 +1,14 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 const BUCKET = "yhzai-sa";
 const s3Client = new S3Client({});
+
+export const Get = async (key: string): Promise<string> => {
+  const response = await s3Client.send(
+    new GetObjectCommand({ Bucket: BUCKET, Key: key }),
+  );
+  return response.Body!.transformToString("utf-8");
+};
 
 export const Save = async (key: string, value: string) => {
   const buffer = Buffer.from(value, "utf8");

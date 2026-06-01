@@ -1,15 +1,14 @@
 import OpenAI from "openai";
-import * as fs from "fs";
-import * as path from "path";
+import { Get } from "../aws/s3-client";
 import { GetSecret } from "../aws/secrets/secrets";
 
 export const Chat = async (
   fileName: string,
   question: string,
 ): Promise<string> => {
-  const filePath = path.join(__dirname, fileName);
-  console.log(`reading file: ${filePath}`);
-  const content = fs.readFileSync(filePath, "utf8");
+  const transcriptionKey = "transcriptions/" + fileName;
+  console.log(`reading transcription from s3: ${transcriptionKey}`);
+  const content = await Get(transcriptionKey);
 
   const apiKey = await GetSecret("OPENAI_API_KEY");
   const openAIClient = new OpenAI({
@@ -22,11 +21,11 @@ export const Chat = async (
         messages: [
           {
             role: "system",
-            content: question,
+            content: `You are a helpful assistant. Answer questions based on the following lecture transcript:\n\n${content}`,
           },
           {
             role: "user",
-            content,
+            content: question,
           },
         ],
         model: "gpt-3.5-turbo",

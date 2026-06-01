@@ -13,6 +13,9 @@ export const SaveTranscription = async (fileName: string, filePath: string) => {
         console.log(
           `[save-transcription] uploaded transcription to s3: ${transcriptionKey}`,
         );
+        return fs.rm(filePath);
+      }).then(() => {
+        console.log(`[save-transcription] deleted local file: ${filePath}`);
       });
     })
     .catch((err) => {

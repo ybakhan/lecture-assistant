@@ -1,8 +1,6 @@
 import { Chat } from "./openai";
 import { Request, Response } from "express";
 import { Save } from "../aws/s3-client";
-// import { Delete } from "../transcribe/transcribed-message";
-// import * as path from "path";
 
 export const HandlePostQuestion = async (req: Request, res: Response) => {
   try {
@@ -17,9 +15,6 @@ export const HandlePostQuestion = async (req: Request, res: Response) => {
         Save(chatKey, result)
           .then((_) => {
             console.log(`[question-handler] uploaded chat to s3: ${chatKey}`);
-          })
-          .then(() => {
-            //Delete(path.join(__dirname, data.tid));
           });
 
         res.setHeader("Content-Type", "application/json");

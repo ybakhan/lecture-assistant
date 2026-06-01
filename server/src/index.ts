@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { HandleConnection } from "./transcribe/transcribe-handler";
 import { HandlePostQuestion } from "./openai/question-handler";
+import { AssumeTranscribeRole } from "./aws/sts-client";
 import http from "http";
 import express from "express";
 
@@ -14,6 +15,16 @@ app.use(cors());
 
 app.get("/health", (_, res) => {
   res.status(200).json({ status: "healthy" });
+});
+
+app.get("/credentials", async (_, res) => {
+  try {
+    const credentials = await AssumeTranscribeRole();
+    res.status(200).json(credentials);
+  } catch (error) {
+    console.error("[credentials] Failed to obtain STS credentials", error);
+    res.status(500).json({ error: "Failed to obtain credentials" });
+  }
 });
 
 // POST endpoint
