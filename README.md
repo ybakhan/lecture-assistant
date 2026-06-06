@@ -1,4 +1,4 @@
-# LECTURE NOTES SMART ASSISTANT
+# LECTURE ASSISTANT
 
 > Real-time lecture transcription and AI-powered Q&A — record a live lecture, get an instant transcript, and chat with an AI about the content.
 
@@ -13,7 +13,7 @@
 
 ## Overview
 
-**Lecture Notes Smart Assistant** streams microphone audio from the browser to **AWS Transcribe** for real-time speech-to-text, then lets you ask questions about the transcript using **OpenAI GPT**. The live transcript appears word-by-word as you speak, and the AI chat has full context of everything said in the lecture.
+**Lecture Assistant** streams microphone audio from the browser to **AWS Transcribe** for real-time speech-to-text, then lets you ask questions about the transcript using **OpenAI GPT**. The live transcript appears word-by-word as you speak, and the AI chat has full context of everything said in the lecture.
 
 ```
 Browser mic → WebSocket → Node/Express → AWS Transcribe → live transcript
@@ -91,8 +91,8 @@ Open [http://localhost:1234](http://localhost:1234) and allow microphone access 
 ```bash
 cd server
 yarn bundle:prod
-docker build -t lecture-notes-sa .
-docker run -p 8080:8080 lecture-notes-sa
+docker build -t lecture-assistant .
+docker run -p 8080:8080 lecture-assistant
 ```
 
 ## Usage
